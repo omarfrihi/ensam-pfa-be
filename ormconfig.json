@@ -6,9 +6,7 @@
   "password": "rootroot",
   "database": "bank",
   "synchronize": true,
-  "entities": ["src/entity/*.js"],
-  "subscribers": ["src/subscriber/*.js"],
-  "migrations": ["src/migration/*.js"],
+  "entities": ["src/entity/*.ts"],
   "cli": {
     "entitiesDir": "src/entity",
     "migrationsDir": "src/migration",

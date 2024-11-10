@@ -1,12 +1,18 @@
-import { postSaveAction } from "./controller/PostSaveAction";
+import { getMetadata } from "./controller/getMetadata";
+import { getQueryResult } from "./controller/getQueryResult";
 
 /**
  * All application routes.
  */
 export const AppRoutes = [
   {
-    path: "/posts",
-    method: "post",
-    action: postSaveAction,
+    path: "/metadata",
+    method: "get",
+    action: getMetadata,
+  },
+  {
+    path: "/query-result",
+    method: "get",
+    action: getQueryResult,
   },
 ];

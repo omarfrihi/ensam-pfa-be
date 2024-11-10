@@ -1,31 +1,36 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {Request, Response} from "express";
+import { createConnection } from "typeorm";
+import { Request, Response } from "express";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import {AppRoutes} from "./routes";
+import { AppRoutes } from "./routes";
+import { authenticateToken } from "./middlewares/authenticateToken";
+import { login } from "./controller/login";
+var cors = require("cors");
 
-// create connection with database
-// note that it's not active database connection
-// TypeORM creates connection pools and uses them for your requests
-createConnection().then(async connection => {
+require("dotenv").config();
 
-    // create express app
+createConnection()
+  .then(async (connection) => {
     const app = express();
+    app.use(cors());
     app.use(bodyParser.json());
-
-    // register all application routes
-    AppRoutes.forEach(route => {
-        app[route.method](route.path, (request: Request, response: Response, next: Function) => {
-            route.action(request, response)
-                .then(() => next)
-                .catch(err => next(err));
-        });
+    app.post("/login", login);
+    AppRoutes.forEach((route) => {
+      app[route.method](
+        route.path,
+        authenticateToken,
+        (request: Request, response: Response, next: Function) => {
+          route
+            .action(request, response)
+            .then(() => next)
+            .catch((err) => next(err));
+        }
+      );
     });
 
-    // run app
-    app.listen(3000);
+    app.listen(3001);
 
-    console.log("Express application is up and running on port 3000");
-
-}).catch(error => console.log("TypeORM connection error: ", error));
+    console.log("Express application is up and running on port 3001");
+  })
+  .catch((error) => console.log("TypeORM connection error: ", error));
