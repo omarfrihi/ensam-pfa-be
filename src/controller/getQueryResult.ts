@@ -9,7 +9,6 @@ export async function getQueryResult(
   response: Response
 ) {
   const { tables, where, select = {}, ...params } = request.query;
-  console.log(tables);
   const [table, ...rest] = tables as string[];
   let query = getManager()
     .createQueryBuilder()
@@ -23,7 +22,6 @@ export async function getQueryResult(
   if (where) {
     query.andWhere(where, params as object);
   }
-  console.log(query.getQuery());
 
   const result = await query.getRawMany();
   const user = await getManager()
