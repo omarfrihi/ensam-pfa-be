@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "./User";
+import { EROLE, User } from "./User";
 
-@Entity()
+@Entity({ comment: JSON.stringify({ scope: [] }) })
 export class QueryHistory {
   @PrimaryGeneratedColumn()
   id: number;

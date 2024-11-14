@@ -7,16 +7,17 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { BankAccount } from "./BankAccount";
+import { EROLE } from "./User";
 
-@Entity()
+@Entity({ comment: JSON.stringify({ scope: [EROLE.ADMIN, EROLE.REGULAR] }) })
 export class Client {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 100, comment: "Nom du client" })
   name: string;
 
-  @Column({ type: "varchar", unique: true, length: 100 })
+  @Column({ type: "varchar", unique: true, length: 100, comment: "Email" })
   email: string;
 
   @Column({ type: "varchar", length: 100 })
@@ -25,7 +26,7 @@ export class Client {
   @OneToMany(() => BankAccount, (bankAccount) => bankAccount.client)
   bankAccounts: BankAccount[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ comment: "Date de creation du compte" })
   createdAt: Date;
 
   @UpdateDateColumn()

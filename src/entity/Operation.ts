@@ -7,12 +7,13 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { BankAccount } from "./BankAccount";
+import { EROLE } from "./User";
 enum EOperationType {
   credit = "credit",
   debit = "debit",
 }
 
-enum EOperationNature {
+enum EOperationCanal {
   withrawAtm = "withrawAtm",
   ecomNational = "ecomNational",
   ecomInternational = "ecomInternational",
@@ -21,24 +22,32 @@ enum EOperationNature {
   prelevement = "prelevement",
 }
 
-@Entity()
+@Entity({ comment: JSON.stringify({ scope: [EROLE.ADMIN, EROLE.REGULAR] }) })
 export class Operation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "decimal" })
+  @Column({ type: "decimal", comment: "Montnat de l'operatio," })
   amount: number;
 
-  @Column({ type: "enum", enum: EOperationType })
+  @Column({
+    type: "enum",
+    enum: EOperationType,
+    comment: "Type de l'operation",
+  })
   type: EOperationType;
 
-  @Column({ type: "enum", enum: EOperationNature })
-  nature: EOperationNature;
+  @Column({
+    type: "enum",
+    enum: EOperationCanal,
+    comment: "Canal de l'operation",
+  })
+  canal: EOperationCanal;
 
   @ManyToOne(() => BankAccount, (bankAcount) => bankAcount.operations)
   bankAcount: BankAccount;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ comment: "Date de l'operation" })
   operationDate: Date;
 
   @UpdateDateColumn()

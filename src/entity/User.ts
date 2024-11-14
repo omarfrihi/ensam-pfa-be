@@ -14,7 +14,7 @@ export enum EROLE {
   REGULAR = "REGULAR",
 }
 
-@Entity()
+@Entity({ comment: JSON.stringify({ scope: [EROLE.ADMIN] }) })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
