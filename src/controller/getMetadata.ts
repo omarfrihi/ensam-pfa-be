@@ -9,19 +9,20 @@ export async function getMetadata(request: Request, response: Response) {
         .filter(({ isPrimary }) => !isPrimary)
         .map((data) => {
           return {
-            propertyName: data.propertyName,
+            propertyName: `${data?.relationMetadata ? `${tableName}.` : ""}${
+              data.propertyName
+            }`,
             type: data.type,
             enum: data.enum,
-            table: data?.relationMetadata?.inverseEntityMetadata?.tableName,
-            relation: data?.relationMetadata?.inverseEntityMetadata?.columns
+            columns: data?.relationMetadata?.inverseEntityMetadata?.columns
               ?.filter(
                 ({ isPrimary, relationMetadata }) =>
                   !isPrimary && !relationMetadata
               )
-              ?.map((data) => ({
-                propertyName: data.propertyName,
-                type: data.type,
-                enum: data.enum,
+              ?.map((column) => ({
+                propertyName: `${data.propertyName}.${column.propertyName}`,
+                type: column.type,
+                enum: column.enum,
               })),
           };
         }),

@@ -1,24 +1,29 @@
-import { Request, Response } from "express";
-import { QueryBuilder, getManager } from "typeorm";
+import { Response } from "express";
+import { getManager } from "typeorm";
 import { QueryHistory } from "../entity/QueryHistory";
-import { User, EROLE } from "../entity/User";
-interface RequestQueryResult extends Request {
-  user: {
-    id: number;
-    username: string;
-    role: EROLE;
-  };
-}
+import { User } from "../entity/User";
+import { CustomRequest } from "./types";
+
 export async function getQueryResult(
-  request: RequestQueryResult,
+  request: CustomRequest,
   response: Response
 ) {
-  const { table, where, select, ...params } = request.query;
-  const query = getManager()
+  const { tables, where, select = {}, ...params } = request.query;
+  console.log(tables);
+  const [table, ...rest] = tables as string[];
+  let query = getManager()
     .createQueryBuilder()
     .select(select as string)
-    .from(table as string, null)
-    .andWhere(where, params as object);
+    .from(table as string, table);
+
+  rest.forEach((table) => {
+    const [, alias] = table.split(".");
+    query.innerJoin(table, alias);
+  });
+  if (where) {
+    query.andWhere(where, params as object);
+  }
+  console.log(query.getQuery());
 
   const result = await query.getRawMany();
   const user = await getManager()
@@ -26,9 +31,9 @@ export async function getQueryResult(
     .findOne({ where: { id: request.user.id } });
   const queryhistory = new QueryHistory();
   queryhistory.query = query.getQuery();
-
   queryhistory.user = user;
-  await getManager().getRepository(QueryHistory).save(queryhistory);
+  queryhistory.queryResult = JSON.stringify(result);
 
-  return response.json(result);
+  await getManager().getRepository(QueryHistory).save(queryhistory);
+  return response.send(result);
 }

@@ -22,7 +22,7 @@ createConnection()
         authenticateToken,
         (request: Request, response: Response, next: Function) => {
           route
-            .action(request, response)
+            .action(request as any, response)
             .then(() => next)
             .catch((err) => next(err));
         }

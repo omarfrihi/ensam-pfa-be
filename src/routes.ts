@@ -1,4 +1,5 @@
 import { getMetadata } from "./controller/getMetadata";
+import { getQueryHistory } from "./controller/getQueryHistory";
 import { getQueryResult } from "./controller/getQueryResult";
 
 /**
@@ -14,5 +15,10 @@ export const AppRoutes = [
     path: "/query-result",
     method: "get",
     action: getQueryResult,
+  },
+  {
+    path: "/query-history",
+    method: "get",
+    action: getQueryHistory,
   },
 ];
