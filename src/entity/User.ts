@@ -14,23 +14,25 @@ export enum EROLE {
   REGULAR = "REGULAR",
 }
 
-@Entity({ comment: JSON.stringify({ scope: [EROLE.ADMIN] }) })
+@Entity({
+  comment: JSON.stringify({ scope: [EROLE.ADMIN], label: "Utilisateur" }),
+})
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 100, comment: "Nom d'utilsateur" })
   username: string;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 100, comment: "password" })
   password: string; // Make sure to hash this
 
-  @Column({ type: "enum", enum: EROLE })
+  @Column({ type: "enum", enum: EROLE, comment: "Role" })
   role: EROLE;
   @OneToMany(() => QueryHistory, (query) => query.user)
   queries: QueryHistory[];
 
-  @CreateDateColumn()
+  @CreateDateColumn({ comment: "Date de creation de l'utilisateur" })
   createdAt: Date;
 
   @UpdateDateColumn()

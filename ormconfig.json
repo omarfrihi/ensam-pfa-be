@@ -5,6 +5,7 @@
   "username": "root",
   "password": "rootroot",
   "database": "bank",
+  "logging": true,
   "synchronize": true,
   "entities": ["src/entity/*.ts"],
   "cli": {

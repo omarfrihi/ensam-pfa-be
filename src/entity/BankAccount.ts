@@ -14,7 +14,12 @@ enum EAcountType {
   SAVING = "SAVING",
   CURRENT = "CURRENT",
 }
-@Entity({ comment: JSON.stringify({ scope: [EROLE.ADMIN, EROLE.REGULAR] }) })
+@Entity({
+  comment: JSON.stringify({
+    scope: [EROLE.ADMIN, EROLE.REGULAR],
+    label: "Compte Bancaire",
+  }),
+})
 export class BankAccount {
   @PrimaryGeneratedColumn()
   id: number;
@@ -37,7 +42,10 @@ export class BankAccount {
   @OneToMany(() => Operation, (operation) => operation.bankAcount)
   operations: Operation[];
 
-  @CreateDateColumn({ comment: "Date de creation" })
+  @Column({ type: "boolean", comment: "Active" })
+  isActive: boolean;
+
+  @CreateDateColumn({ comment: "Date de creation du compte" })
   createdAt: Date;
 
   @UpdateDateColumn()

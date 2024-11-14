@@ -8,11 +8,11 @@ export async function getQueryResult(
   request: CustomRequest,
   response: Response
 ) {
-  const { tables, where, select = {}, ...params } = request.query;
+  const { tables, where, select, params } = request.query;
   const [table, ...rest] = tables as string[];
   let query = getManager()
     .createQueryBuilder()
-    .select(select as string)
+    .select(select as string[])
     .from(table as string, table);
 
   rest.forEach((table) => {

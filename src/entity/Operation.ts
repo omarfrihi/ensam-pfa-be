@@ -22,12 +22,17 @@ enum EOperationCanal {
   prelevement = "prelevement",
 }
 
-@Entity({ comment: JSON.stringify({ scope: [EROLE.ADMIN, EROLE.REGULAR] }) })
+@Entity({
+  comment: JSON.stringify({
+    scope: [EROLE.ADMIN, EROLE.REGULAR],
+    label: "Operation",
+  }),
+})
 export class Operation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "decimal", comment: "Montnat de l'operatio," })
+  @Column({ type: "decimal", comment: "Montnat de l'operation" })
   amount: number;
 
   @Column({

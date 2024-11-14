@@ -8,7 +8,9 @@ import {
 } from "typeorm";
 import { EROLE, User } from "./User";
 
-@Entity({ comment: JSON.stringify({ scope: [] }) })
+@Entity({
+  comment: JSON.stringify({ scope: [], label: "Historique de requette" }),
+})
 export class QueryHistory {
   @PrimaryGeneratedColumn()
   id: number;
