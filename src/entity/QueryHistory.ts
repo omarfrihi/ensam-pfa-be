@@ -15,10 +15,10 @@ export class QueryHistory {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "longtext" })
+  @Column({ type: "text" })
   query: string;
 
-  @Column({ type: "longtext" })
+  @Column({ type: "text" })
   queryResult: string;
 
   @ManyToOne(() => User, (account) => account.queries)
