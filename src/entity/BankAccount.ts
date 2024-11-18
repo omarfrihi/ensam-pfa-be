@@ -10,7 +10,7 @@ import {
 import { Client } from "./Client";
 import { Operation } from "./Operation";
 import { EROLE } from "./User";
-enum EAcountType {
+export enum EAcountType {
   SAVING = "SAVING",
   CURRENT = "CURRENT",
 }

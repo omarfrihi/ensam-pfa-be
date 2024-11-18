@@ -8,12 +8,12 @@ import {
 } from "typeorm";
 import { BankAccount } from "./BankAccount";
 import { EROLE } from "./User";
-enum EOperationType {
+export enum EOperationType {
   credit = "credit",
   debit = "debit",
 }
 
-enum EOperationCanal {
+export enum EOperationCanal {
   withrawAtm = "withrawAtm",
   ecomNational = "ecomNational",
   ecomInternational = "ecomInternational",

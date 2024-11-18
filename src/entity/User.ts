@@ -25,7 +25,7 @@ export class User {
   username: string;
 
   @Column({ type: "varchar", length: 100, comment: "password" })
-  password: string; // Make sure to hash this
+  password: string;
 
   @Column({ type: "enum", enum: EROLE, comment: "Role" })
   role: EROLE;
