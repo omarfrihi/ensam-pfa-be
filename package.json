@@ -39,6 +39,6 @@
   },
   "scripts": {
     "start": "nodemon src/index.ts",
-    "seed": "nodemon src/seed.ts"
+    "seed": "tsc src/seed.ts"
   }
 }
